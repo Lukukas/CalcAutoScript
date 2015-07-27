@@ -1,0 +1,7 @@
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\bin\Debug\CalcAutoScript.exe
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\bin\Debug\CalcAutoScript.pdb
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\obj\x86\Debug\CalcAutoScript.exe
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\obj\x86\Debug\CalcAutoScript.pdb
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\bin\Debug\Calculator.exe
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\bin\Debug\Calculator.pdb
+C:\Users\Lukukas\CSharpStuff\CalcAutoScript\CalcAutoScript\obj\x86\Debug\CalcAutoScript.csprojResolveAssemblyReference.cache
