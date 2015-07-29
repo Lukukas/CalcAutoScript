@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Threading;
 
 namespace ConsoleApplication1
 {
@@ -16,6 +17,15 @@ namespace ConsoleApplication1
         public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
         [DllImport("user32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         public static extern bool SetForegroundWindow(IntPtr hwnd);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string lclassName, string windowTitle);
+
+        [DllImport("user32.dll")]
+        private static extern int SendMessage(IntPtr hWnd, uint Msg, out int wParam, out int lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, StringBuilder lParam);
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wparam, IntPtr lparam);
 
         public const int KEYEVENTF_KEYUP = 0x0002;
         public const int KEVENTF_EXTENDEDKEY = 0x0001;
@@ -31,6 +41,7 @@ namespace ConsoleApplication1
         public const int VK_MENU = 0x12;
         public const int VK_F4 = 0x73;
         public const int WM_GETTEXT = 0x0D;
+        public const uint WM_GETTEXTLENGTH = 0x000E;
 
         [STAThread]
         public static void Main(string[] args)
@@ -73,13 +84,30 @@ namespace ConsoleApplication1
             keybd_event(VK_TAB, 0, 0, 0);
             keybd_event(VK_RETURN, 0, 0, 0);
 
+            Thread.Sleep(200);
+
+            IntPtr child = IntPtr.Zero;
+            IntPtr labelHwnd = FindWindowEx(myCalculator, child, null, null);
+
+            //Grab text
+            int textlength = (int)SendMessage(labelHwnd, WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero) + 1;
+
+            //Console.WriteLine(textlength);
+
+            StringBuilder sb = new StringBuilder(textlength);
+            SendMessage(labelHwnd, WM_GETTEXT, (IntPtr)textlength, sb);
+
+            string returnText = sb.ToString();
+
             //Close the application
             keybd_event(VK_MENU, 0, 0, 0);
             keybd_event(VK_F4, 0, 0, 0);
             keybd_event(VK_MENU, 0, KEYEVENTF_KEYUP, 0);
             keybd_event(VK_F4, 0, KEYEVENTF_KEYUP, 0);
 
-            Console.WriteLine(2);
+            
+
+            Console.WriteLine(returnText);
             Console.ReadLine();
         }
       
